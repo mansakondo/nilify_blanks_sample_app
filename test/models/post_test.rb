@@ -14,15 +14,6 @@ class PostTest < ActiveSupport::TestCase
 
     refute @post.tags
     refute @post.metadata
-
-    @post.tags      = '["", nil]'
-    @post.metadata  = '{ "foo" => "", "bar" => nil}'
-
-    @post.save
-    @post.reload
-
-    refute @post.tags
-    refute @post.metadata
   end
 
   test "should remove blank values" do
@@ -34,20 +25,11 @@ class PostTest < ActiveSupport::TestCase
 
     assert_equal 2, @post.tags.count
     assert_equal 2, @post.metadata.count
-
-    @post.tags     = '["ruby", "", "rails", nil]'
-    @post.metadata = '{ "ruby" => "ruby", "foo" => "", "rails" => "rails", "bar" => nil }'
-
-    @post.save
-    @post.reload
-
-    assert_equal 2, @post.tags.count
-    assert_equal 2, @post.metadata.count
   end
 
   test "should always nilify values before sending them to the database" do
-    @post.tags     = '["ruby", "", "rails", nil]'
-    @post.metadata = '{ "ruby" => "ruby", "foo" => "", "rails" => "rails", "bar" => nil }'
+    @post.tags     = ["ruby", "", "rails", nil]
+    @post.metadata = { "ruby" => "ruby", "foo" => "", "rails" => "rails", "bar" => nil }
 
     @post.save
     @post.reload
